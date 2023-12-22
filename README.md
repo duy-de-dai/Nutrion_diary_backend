@@ -1,7 +1,7 @@
 # Installation
 
 - Install Xampp , start apache, start sql
--Create database with name: nutrition_app
+- Create database with name: nutrition_app
 
 Inside backend and frontend folder run this command to install neccesary library:
 
