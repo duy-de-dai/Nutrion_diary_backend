@@ -10,6 +10,7 @@ exports.up = (knex)=>{
         table.float('fat')
         table.float('carb')
         table.string('vitamin')
+        table.integer('user_id').unsigned().notNullable().references('users.id')
 
       });
 }

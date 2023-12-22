@@ -14,6 +14,7 @@ exports.seed = (knex) => {
             fat: 3.6,
             carb: 0,
             vitamin: JSON.stringify(['Vitamin A', 'Vitamin C']),
+            user_id:1
           },
           {
             name: 'Rau Bó Xôi',
@@ -25,6 +26,7 @@ exports.seed = (knex) => {
             fat: 0.4,
             carb: 12.5,
             vitamin: JSON.stringify(['Vitamin C', 'Vitamin K']),
+            user_id:1
           },
           // Thêm các dòng dữ liệu khác tương tự
         ]);
