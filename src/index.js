@@ -3,6 +3,7 @@ const PORT = 3001;
 const UserRouter = require('./routes/UserRoute')
 const FoodRouter = require('./routes/FoodRoute')
 const MealRouter = require('./routes/MealRoute')
+const DayRouter = require('./routes/DayRoute')
 
 
 const bodyParser = require('body-parser');
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 app.use('/user', UserRouter);
 app.use('/food', FoodRouter);
 app.use('/meal', MealRouter);
+app.use('/day', DayRouter);
 
 app.listen(PORT, () => {
   console.log(`App listenning at http://localhost:${PORT}`);

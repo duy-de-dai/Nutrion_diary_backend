@@ -6,7 +6,7 @@ class MealModel {
     this.name = meal.name || null;
     this.user_id = meal.user_id || null;
   }
- static async addMealWithFood(name, user_id, foods) {
+  static async addMealWithFood(name, user_id, foods) {
     try {
       // Bắt đầu một transaction
       return await db.transaction(async (trx) => {
@@ -16,13 +16,13 @@ class MealModel {
           user_id,
         });
 
-        
+
         // Tạo mảng chứa dữ liệu để chèn vào bảng 'meal_food'
         const mealFoodData = foods.map((food) => ({
           meal_id: mealId,
           food_id: food.food_id,
           quantity: food.quantity,
-          user_id:user_id
+          user_id: user_id
         }));
 
         // Chèn dữ liệu vào bảng 'meal_food'
@@ -39,20 +39,41 @@ class MealModel {
       throw error;
     }
   }
-  async updateMeal() {
-    // Cập nhật dữ liệu trong bảng 'foods' sử dụng Knex
-    await db('meals').where('id', this.id).update({
-      name: this.name,
-      
-    });
+  // Hàm xóa bữa ăn
+  static async deleteMeal(mealId) {
+    try {
+      return await db.transaction(async (trx) => {
+        // Xóa dữ liệu từ bảng 'meal_food' trước
+        await trx('meal_food').where('meal_id', mealId).del();
 
-    // Truy vấn để lấy thông tin của món ăn sau khi cập nhật
-    const updatedFood = await db('foods').where('id', this.id).first();
+        // Xóa dữ liệu từ bảng 'meals'
+        await trx('meals').where('id', mealId).del();
 
-    return updatedFood;
+        return { success: true };
+      });
+    } catch (error) {
+      console.error('Error deleting meal:', error);
+      throw error;
+    }
   }
 
-  
+  static async getMeal(mealId) {
+    try {
+      // Truy vấn thông tin bữa ăn từ bảng 'meals'
+      const meal = await db('meals').where('id', mealId).first();
+
+      // Truy vấn thông tin thực phẩm của bữa ăn từ bảng 'meal_food'
+      const mealFoods = await db('meal_food').where('meal_id', mealId);
+      
+
+      return { meal, mealFoods };
+    } catch (error) {
+      console.error('Error getting meal:', error);
+      throw error;
+    }
+  }
+
+
 }
 
 
