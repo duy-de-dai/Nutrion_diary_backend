@@ -63,7 +63,7 @@ class MealModel {
       const meal = await db('meals').where('id', mealId).first();
 
       // Truy vấn thông tin thực phẩm của bữa ăn từ bảng 'meal_food'
-      const mealFoods = await db('meal_food').where('meal_id', mealId);
+      const mealFoods = await db('meal_food').select('food_id', 'quantity').where('meal_id', mealId);
       
 
       return { meal, mealFoods };

@@ -64,11 +64,23 @@ class UserModel {
     console.log(userData);
     try {
       const result = await db("users").update(userData).where("id", userId);
-      return {
-        success: true,
-        statusCode: 200,
-        message: "Update user successful",
-      };
+      if (result === 1) {
+        // Nếu chỉnh sửa thành công (đúng một hàng đã được cập nhật)
+        const updatedUser = await db('users').where('id', userId).first();
+        return {
+          success: true,
+          statusCode: 200,
+          message: 'Update user successful',
+          user: updatedUser,
+        };
+      } else {
+        // Nếu không có hàng nào được cập nhật (userId không tồn tại)
+        return {
+          success: false,
+          statusCode: 404,
+          message: 'User not found',
+        };
+      }
     } catch (error) {
       console.error("Update user error: ", error);
       return {

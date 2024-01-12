@@ -10,6 +10,6 @@ exports.up = (knex) => {
   };
   
   exports.down = (knex) => {
-    return knex.schema.dropTable('meal_food');
+    return knex.schema.dropTable('excercises');
   };
   

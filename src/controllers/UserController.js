@@ -30,4 +30,17 @@ exports.login = async (req, res) => {
     res.json({ error: result.error });
   }
 };
+exports.update = async(req, res) =>{
+  try {
+    const data = req.body;
+    const id = req.params.id;
+    
+    const result = await UserModel.updateUser(id,data);
 
+    return res.send(result);
+  } catch (err) {
+    console.log(req.body);
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
