@@ -44,3 +44,14 @@ exports.getMeal = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+exports.getAllMeals = async (req, res) => {
+    try {
+      const userId = req.params.userId; // Hoặc lấy từ middleware xác thực
+      const allMeals = await MealModel.getAllMeals(userId);
+      return res.status(200).json(allMeals);
+    } catch (error) {
+      console.error('Error getting all meals:', error);
+      return res.sendStatus(500);
+    }
+  };

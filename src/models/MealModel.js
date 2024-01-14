@@ -72,7 +72,25 @@ class MealModel {
       throw error;
     }
   }
+  
+  // Hàm lấy tất cả bữa ăn của một người dùng
+  static async getAllMeals(userId) {
+    try {
+      // Truy vấn tất cả bữa ăn của người dùng từ bảng 'meals'
+      const meals = await db('meals').where('user_id', userId);
 
+      // Duyệt qua từng bữa ăn để lấy thông tin thực phẩm từ bảng 'meal_food'
+      const mealsWithFoods = await Promise.all(meals.map(async (meal) => {
+        const mealFoods = await db('meal_food').select('food_id', 'quantity').where('meal_id', meal.id);
+        return { meal, mealFoods };
+      }));
+
+      return mealsWithFoods;
+    } catch (error) {
+      console.error('Error getting all meals:', error);
+      throw error;
+    }
+  }
 
 }
 
